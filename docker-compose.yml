@@ -45,6 +45,7 @@ services:
       context: ./frontend
       target: production
     environment:
+      API_INTERNAL_URL: http://backend:3001
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
     ports:
       - "${FRONTEND_PORT:-3000}:3000"
