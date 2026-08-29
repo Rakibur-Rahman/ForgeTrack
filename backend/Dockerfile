@@ -1,4 +1,4 @@
-FROM rust:1.85-bookworm AS builder
+FROM rust:1.93-bookworm AS builder
 WORKDIR /app
 COPY Cargo.toml Cargo.lock* ./
 COPY crates ./crates
@@ -14,6 +14,6 @@ USER forge
 EXPOSE 3001
 CMD ["api"]
 
-FROM rust:1.85-bookworm AS development
+FROM rust:1.93-bookworm AS development
 WORKDIR /app
 CMD ["cargo", "run", "--package", "api"]
