@@ -1,6 +1,6 @@
 use std::{env, net::SocketAddr, sync::Arc};
 use auth::{hash_password, issue_token, verify_password, verify_token};
-use axum::{extract::{Path, State}, http::{header, HeaderMap, Method, StatusCode}, response::{IntoResponse, Response}, routing::{delete, get, patch, post}, Json, Router};
+use axum::{extract::{Path, State}, http::{header, HeaderMap, Method, StatusCode}, response::{IntoResponse, Response}, routing::{get, post}, Json, Router};
 use serde::{Deserialize, Serialize};
 use sqlx::{postgres::PgPoolOptions, PgPool};
 use tower_http::{cors::{Any, CorsLayer}, trace::TraceLayer};
