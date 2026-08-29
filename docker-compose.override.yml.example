@@ -1,0 +1,21 @@
+services:
+  backend:
+    build:
+      target: development
+    volumes:
+      - ./backend:/app
+      - cargo-registry:/usr/local/cargo/registry
+      - cargo-target:/app/target
+    command: ["cargo", "run", "--package", "api"]
+  frontend:
+    build:
+      target: development
+    volumes:
+      - ./frontend:/app
+      - frontend-node-modules:/app/node_modules
+    command: ["npm", "run", "dev"]
+
+volumes:
+  cargo-registry:
+  cargo-target:
+  frontend-node-modules:

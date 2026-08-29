@@ -1,0 +1,2 @@
+export const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+export async function api<T>(path: string, token?: string, init?: RequestInit): Promise<T> { const response = await fetch(`${apiUrl}${path}`, { ...init, headers: { "content-type": "application/json", ...(token ? { authorization: `Bearer ${token}` } : {}), ...init?.headers } }); if (!response.ok) { const body = await response.json().catch(() => ({})); throw new Error(body.error ?? "Request failed"); } return response.status === 204 ? undefined as T : response.json(); }

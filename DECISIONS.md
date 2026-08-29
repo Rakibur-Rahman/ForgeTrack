@@ -22,19 +22,34 @@ ForgeTrack will be implemented as a modular monolith using Rust workspaces and i
 
 ### D002 — Native-First Development, Containerize Later
 
-**Decision
+**Decision**
 
 For Phase 1 steps 1–6, ForgeTrack runs natively: PostgreSQL runs locally (or in a single Docker container), the backend runs with `cargo run`, and the frontend runs with `next dev`.
 
 Dockerfiles and Docker Compose are introduced only after the core application flow works, in Phase 1 steps 7–8.
 
-**Reason
+**Reason**
 
 This keeps the early development loop fast while the database schema and API design are still changing. Containerization is added once the native stack is working, giving the project a repeatable setup without slowing initial development.
 
 ---
 
-### D003 — PostgreSQL as the Primary Database
+### D003 — Next.js App Router Frontend
+
+**Decision**
+
+ForgeTrack will use Next.js with the App Router, rather than a standalone React application.
+
+**Reason**
+
+- Server Components provide the initial page data fetch.
+- TanStack Query handles client-side server state after hydration.
+- Zustand holds client auth and session state.
+- Next.js provides the development (`next dev`) and production (`standalone`) runtime model used by the Phase 1 Docker targets.
+
+---
+
+### D004 — PostgreSQL as the Primary Database
 
 **Decision**
 

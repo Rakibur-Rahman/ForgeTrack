@@ -1,0 +1,56 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-forgetrack}
+      POSTGRES_USER: ${POSTGRES_USER:-forgetrack}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  migrate:
+    build:
+      context: ./backend
+      target: production
+    command: ["api", "migrate"]
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-forgetrack}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-forgetrack}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  backend:
+    build:
+      context: ./backend
+      target: production
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-forgetrack}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-forgetrack}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
+      API_ADDR: 0.0.0.0:3001
+      RUST_LOG: ${RUST_LOG:-info}
+    ports:
+      - "${BACKEND_PORT:-3001}:3001"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  frontend:
+    build:
+      context: ./frontend
+      target: production
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    depends_on:
+      backend:
+        condition: service_started
+
+volumes:
+  postgres-data:
