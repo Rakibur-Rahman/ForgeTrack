@@ -27,3 +27,7 @@ Thumbs.db
 
 # Build artifacts
 *.lock.bak
+
+# Local project planning
+/PHASE1.md
+/DECISIONS.md

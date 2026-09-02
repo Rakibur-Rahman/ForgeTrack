@@ -2,11 +2,6 @@
 
 ForgeTrack is a self-hosted project management platform inspired by Redmine, Linear, and GitHub Issues. It is built as a modular Rust monolith designed to evolve into a scalable, distributed system.
 
-Project documentation:
-
-- [Phase 1 roadmap](docs/roadmap/phase-1.md)
-- [Architecture decision log](docs/architecture-decisions.md)
-
 ## Tech Stack
 
 ### Backend
