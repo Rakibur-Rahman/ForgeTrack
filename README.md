@@ -36,3 +36,5 @@ Native development comes first:
 3. Start the API with `cargo run --package api` from `backend/` and the UI with `npm run dev` from `frontend/`.
 
 After the native flow is working, copy `.env.example` to `.env` and run `docker compose up --build`. To use hot reload in containers, copy `docker-compose.override.yml.example` to the ignored `docker-compose.override.yml` file.
+
+To verify the complete two-user Phase 1 workflow against a running stack, install `curl` and `jq`, then run `./scripts/phase1-acceptance.sh`.
